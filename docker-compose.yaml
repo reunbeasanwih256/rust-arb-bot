@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7.2
+    container_name: redis
+    command: redis-server
+    restart: always
+    network_mode: host
+    expose:
+      - 6379
+    volumes:
+      - ~/.docker-data/redis:/data
+  
+  #######################################################
+  arb-bot1:
+    image: debian:bullseye-slim
+    container_name: arb-bot1
+    restart: always
+    working_dir: /app
+    command: bash -c "apt-get update && apt-get install -y libssl-dev ca-certificates && /app/bot"
+    network_mode: host
+    volumes:
+      - ./bot:/app/bot
+      - ./config/config-1.toml:/app/config.toml
+      - ./config/mints-1.json:/app/mints.json
+    depends_on:
+      - redis
+      - jupapi1
+  jupapi1:
+    build:
+      context: ./jupapi
+      dockerfile: Dockerfile.jupapi
+    container_name: jupapi1
+    restart: always
+    volumes:
+      - ./config/mints-1.json:/app/mints.json
+      - ./jupapi/markets.json:/app/markets.json
+    network_mode: host
+    environment:
+      - PORT=8081
+      - RPC_URL=${RPC_URL}
+      - YELLOWSTONE_GRPC_ENDPOINT=${YELLOWSTONE_GRPC_ENDPOINT}
+      - EXCLUDE_DEX_PROGRAM_IDS=obriQD1zbpyLz95G5n7nJe6a4DPjpFwa5XYPoNm113y
+  ippool-haproxy:
+    image: haproxy:latest
+    container_name: ippool-haproxy
+    restart: always
+    privileged: true
+    user: root
+    network_mode: host
+    expose:
+      - 3000
+    volumes:
+      - ./ippool-haproxy/generate-config.sh:/docker-entrypoint.sh:ro
+    entrypoint: ["/bin/bash", "/docker-entrypoint.sh"]
+  jito-haproxy:
+    image: haproxy:latest
+    container_name: jito-haproxy
+    cap_add:
+      - NET_ADMIN
+    privileged: true
+    user: root
+    network_mode: host  
+    expose:
+      - 30000
+    restart: always
+    volumes:
+       - ./jito-haproxy/generate-config.sh:/docker-entrypoint.sh:ro
+    entrypoint: ["/bin/bash", "/docker-entrypoint.sh"]
+
+networks:
+  default:
+    driver: bridge

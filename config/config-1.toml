@@ -1,0 +1,86 @@
+[general]
+rpc_url = "http://xxxx"
+only_simulate = false
+
+[bot]
+concurrent_limit = 1
+batch_interval_ms = 10
+mint_profit_cache_ms = 20
+
+filter_mints = []
+
+[jupiter]
+url = "http://127.0.0.1:8081"
+max_accounts = 20
+only_direct_routes = false
+
+
+[logger]
+level = "info" # 可选值: error, warn, info, debug, trace
+
+[wallet]
+payer_private_key = "xxxx"
+[blind_quote_strategy]
+[[blind_quote_strategy.base_mints]]
+mint = "So11111111111111111111111111111111111111112"
+trade_type = "array" # 可选值: range, array
+trade_range = { from = 100_000_000, to = 1_000_000_000 }
+trade_array = [
+    10_000_000,
+    20_000_000,
+    30_000_000,
+    40_000_000,
+    50_000_000,
+    70_000_000,
+    80_000_000,
+    90_000_000,
+    100_000_000,
+]
+sol_rate = 1_000_000_000
+min_profit = 15_000
+is_integer = true
+use_kamino_borrow = true
+multi_hop_max_threshold = 4_999_999_999
+decimals = 9
+
+[[blind_quote_strategy.base_mints]]
+mint = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+trade_type = "array" # 可选值: range, array
+trade_range = { from = 10_000_000, to = 800_000_000 }
+trade_array = [
+    10_000_000,
+    20_000_000,
+    30_000_000,
+    40_000_000,
+    50_000_000,
+    60_000_000,
+    70_000_000,
+    80_000_000,
+    90_000_000,
+    100_000_000,
+    200_000_000,
+    300_000_000,
+    400_000_000,
+    500_000_000,
+    600_000_000,
+    700_000_000,
+    800_000_000,
+    900_000_000,
+    1000_000_000,
+    1500_000_000,
+    2000_000_000,
+]
+sol_rate = 100_000_000
+min_profit = 15_000
+is_integer = true
+use_kamino_borrow = true
+multi_hop_max_threshold = 999_999_999
+decimals = 6
+
+[redis]
+url = "redis://127.0.0.1:6379/4"
+
+
+[jito]
+url = "http://127.0.0.1:30000/api/v1"
+tip_percentage_range = { from = 30, to = 50 }

@@ -1,0 +1,26 @@
+FROM debian:bookworm-slim
+
+RUN apt-get update && apt-get install curl wget unzip openssl ca-certificates jq -y
+
+WORKDIR /app
+
+COPY ./jupiter-swap-api-x86_64-unknown-linux-gnu.zip ./jupiter-swap-api-x86_64-unknown-linux-gnu.zip
+RUN unzip jupiter-swap-api-x86_64-unknown-linux-gnu.zip
+RUN rm jupiter-swap-api-x86_64-unknown-linux-gnu.zip
+RUN chmod +x jupiter-swap-api
+
+ENV RUST_LOG=info
+ENV HOST=0.0.0.0 \
+    PORT=8080 \
+    YELLOWSTONE_GRPC_ENABLE_PING=true \
+    ALLOW_CIRCULAR_ARBITRAGE=true \
+    MARKET_MODE=file \
+    MARKET_CACHE=markets.json \
+    EXPOSE_QUOTE_AND_SIMULATE=false \
+    ENABLE_ADD_MARKET=true \
+    ENABLE_NEW_DEXES=true
+
+COPY ./setup.sh ./setup.sh
+RUN chmod +x ./setup.sh
+
+CMD ["./setup.sh"]
