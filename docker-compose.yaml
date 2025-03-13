@@ -35,7 +35,6 @@ services:
     restart: always
     volumes:
       - ./config/mints-1.json:/app/mints.json
-      - ./jupapi/markets.json:/app/markets.json
     network_mode: host
     environment:
       - PORT=8081
