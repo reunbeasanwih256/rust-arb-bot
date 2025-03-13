@@ -52,6 +52,22 @@ cp /path/to/downloaded/bot ./bot
 chmod +x ./bot
 ```
 
+### 1.3 Troubleshooting Common Installation Issues
+
+#### libssl Error
+
+If you encounter the following error when running the bot:
+
+```shell
+./bot: error while loading shared libraries: libssl.so.1.1: cannot open shared object file: No such file or directory
+```
+
+Install the required SSL libraries:
+
+```shell
+sudo apt-get install -y libssl-dev ca-certificates
+```
+
 ## 2. Configuration
 
 ### 2.1 Environment Setup
