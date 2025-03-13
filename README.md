@@ -43,9 +43,8 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 ```shell
 # 1. Download Jupiter Swap API (version must be >= v6.0.41)
-mkdir -p jupapi
-curl -L https://github.com/jup-ag/jupiter-swap-api/releases/download/v6.0.42/jupiter-swap-api-linux-amd64 -o jupapi/jupiter-swap-api
-chmod +x jupapi/jupiter-swap-api
+
+wget https://github.com/jup-ag/jupiter-swap-api/releases/download/v6.0.41/jupiter-swap-api-x86_64-unknown-linux-gnu.zip -O jupapi/jupiter-swap-api-x86_64-unknown-linux-gnu.zip
 
 # 2. Download Bot Binary
 cp /path/to/downloaded/bot ./bot
@@ -62,10 +61,11 @@ If you encounter the following error when running the bot:
 ./bot: error while loading shared libraries: libssl.so.1.1: cannot open shared object file: No such file or directory
 ```
 
-Install the required SSL libraries:
+Please execute the following command to solve this problem:
 
 ```shell
-sudo apt-get install -y libssl-dev ca-certificates
+docker-compose run -it --rm arb-bot1 bash
+./bot --encrypt
 ```
 
 ## 2. Configuration
