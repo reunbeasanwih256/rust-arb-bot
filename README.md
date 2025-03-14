@@ -1,11 +1,43 @@
 # Solana Arbitrage Bot Documentation
 
+## Demo Wallet
+
+You can view a demonstration wallet with active trading history at:
+[https://solscan.io/account/3oPVV4BWv7D9vwjzKqh4XxiEuHNYocrw5kuyVwcDcs6B#defiactivities](https://solscan.io/account/3oPVV4BWv7D9vwjzKqh4XxiEuHNYocrw5kuyVwcDcs6B#defiactivities)
+
+This demo wallet showcases the bot's trading activities and performance in real market conditions.
+
 ## Table of Contents
-1. [Installation](#1-installation)
-2. [Configuration](#2-configuration)
-3. [Starting the Bot](#3-starting-the-bot)
-4. [Advanced Configuration](#4-advanced-configuration)
-5. [Important Notes](#5-important-notes)
+
+1. [Prerequisites](#prerequisites)
+2. [Installation](#1-installation)
+3. [Configuration](#2-configuration)
+4. [Starting the Bot](#3-starting-the-bot)
+5. [Advanced Configuration](#4-advanced-configuration)
+6. [Important Notes](#5-important-notes)
+
+## Prerequisites
+
+Before installing and running the Solana Arbitrage Bot, ensure you have:
+
+### Server Requirements
+
+- Minimum recommended configuration: 2 vCPUs, 4GB RAM
+- High-frequency hosting is preferred for optimal performance
+
+### Network Requirements
+
+- Solana RPC endpoint (reliable and low-latency)
+- Solana Yellowstone gRPC endpoint
+
+### Wallet Requirements
+
+- Fund your wallet with USDC and wSOL/SOL
+- Maintain sufficient SOL balance for Jito tips and transaction fees
+
+### Token Configuration
+
+- Keep the number of tokens in each Jupiter mints configuration to around 20 for optimal performance
 
 ## 1. Installation
 
@@ -93,19 +125,21 @@ nano .env  # Add your RPC_URL and YELLOWSTONE_GRPC_ENDPOINT
 2. Default includes SOL and USDC:
    ```json
    [
-     "So11111111111111111111111111111111111111112",  // SOL
-     "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"  // USDC
+     "So11111111111111111111111111111111111111112", // SOL
+     "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" // USDC
    ]
    ```
 
 ### 2.4 Configure Bot Settings
 
 Edit `config/config-1.toml` with your settings:
+
 - Add your encrypted private key
 - Configure trading strategies
 - Set RPC URLs and other parameters
 
 Example wallet configuration:
+
 ```toml
 [wallet]
 payer_private_key = "encrypted:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"  # Your encrypted key
@@ -121,7 +155,7 @@ docker-compose up -d
 docker-compose ps
 
 # View logs
-docker-compose logs -f arb-bot1
+docker-compose logs -f --tail 10 arb-bot1
 
 # Stop services
 docker-compose down
@@ -132,11 +166,14 @@ docker-compose down
 ### 4.1 IP Pool Configuration
 
 For servers with multiple IP addresses:
+
 - Use the built-in `ippool-haproxy` service
 - Configure in `ippool-haproxy/generate-config.sh`
 
 Alternative options:
+
 1. Deploy on a separate machine:
+
    ```shell
    mkdir -p ippool-haproxy
    # Copy generate-config.sh to the new machine
@@ -153,18 +190,22 @@ Alternative options:
 ## 5. Important Notes
 
 ### 5.1 Profit Sharing
+
 The arbitrage bot automatically extracts 15% of all profits generated from successful trades.
 
 ### 5.2 Monitoring Tips
+
 - Check logs regularly
 - Monitor wallet balance
 - Review trading strategies periodically
 - Update token configurations as needed
 
 ### 5.3 Disclaimer
+
 **USE AT YOUR OWN RISK**
 
 This arbitrage bot is provided "as is" without warranties. Risks include:
+
 - Market volatility
 - Technical issues
 - Regulatory concerns
@@ -172,7 +213,3 @@ This arbitrage bot is provided "as is" without warranties. Risks include:
 - Network congestion
 
 The developers are not liable for any losses. Always start with small amounts for testing.
-
-
-
-
